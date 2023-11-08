@@ -1,0 +1,22 @@
+body:has(>.dark-plus) {
+    background-color: #1e1e1e;
+}
+
+body>.shiki>code {
+    counter-increment: step 0;
+    counter-reset: step;
+    font-family: Consolas, monospace;
+    font-size: 0.875rem;
+    line-height: 1.125rem;
+    white-space: pre-wrap;
+}
+
+body>.shiki>code>.line::before {
+    display: inline-block;
+    counter-increment: step;
+    margin-right: 1rem;
+    width: 2.5rem;
+    content: counter(step);
+    color: #6e7681;
+    text-align: right
+}
