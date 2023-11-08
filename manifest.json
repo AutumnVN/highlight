@@ -1,0 +1,31 @@
+{
+    "name": "highlight",
+    "description": "Highlight any raw code text and beautify HTML, CSS, JS",
+    "version": "0.0.1",
+    "manifest_version": 3,
+    "author": "AutumnVN",
+    "homepage_url": "https://github.com/AutumnVN/highlight",
+    "background": {
+        "service_worker": "background.js",
+        "matches": [
+            "*://raw.githubusercontent.com/*"
+        ]
+    },
+    "content_security_policy": {
+        "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self';"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "<all_urls>"
+            ],
+            "js": [
+                "shiki/shiki.js",
+                "beautify/html.js",
+                "beautify/css.js",
+                "beautify/js.js",
+                "content.js"
+            ]
+        }
+    ]
+}
