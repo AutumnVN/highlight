@@ -4,6 +4,7 @@
     "version": "0.0.1",
     "manifest_version": 3,
     "author": "AutumnVN",
+    "homepage_url": "https://github.com/AutumnVN/highlight/tree/hljs",
     "content_scripts": [
         {
             "matches": [
