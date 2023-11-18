@@ -1,6 +1,13 @@
-chrome.webRequest.onHeadersReceived.addListener(details => {
-    details.responseHeaders.forEach(header => {
-        if (header.name.toLowerCase() === 'content-security-policy') header.value = ""
+importScripts('shiki/shiki.js');
+
+chrome.runtime.onMessage.addListener(({ code, ext }, sender, sendResponse) => {
+    shiki.getHighlighter({
+        theme: 'dark-plus',
+        langs: []
+    }).then(highlighter => {
+        highlighter.loadLanguage(ext).then(() => {
+            sendResponse(highlighter.codeToHtml(code, { lang: ext }));
+        });
     });
-    return { responseHeaders: details.responseHeaders };
-}, { urls: ['*://raw.githubusercontent.com/*'] }, ['blocking', 'responseHeaders']);
+    return true;
+});

@@ -2,19 +2,18 @@
     "name": "highlight",
     "description": "Highlight any raw code text and beautify HTML, CSS, JS",
     "version": "0.0.1",
-    "manifest_version": 2,
+    "manifest_version": 3,
     "author": "AutumnVN",
     "homepage_url": "https://github.com/AutumnVN/highlight",
     "background": {
-        "scripts": [
-            "background.js"
+        "service_worker": "background.js",
+        "matches": [
+            "*://raw.githubusercontent.com/*"
         ]
     },
-    "permissions": [
-        "webRequest",
-        "webRequestBlocking",
-        "https://raw.githubusercontent.com/*"
-    ],
+    "content_security_policy": {
+        "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self';"
+    },
     "content_scripts": [
         {
             "matches": [
@@ -31,8 +30,5 @@
                 "shiki/style.css"
             ]
         }
-    ],
-    "web_accessible_resources": [
-        "shiki/*"
     ]
 }

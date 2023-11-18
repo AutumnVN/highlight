@@ -30,10 +30,16 @@ if (document.contentType !== 'text/html' && (document.contentType.startsWith('te
 }
 
 async function highlightCode(code, ext) {
-    const highlighter = await shiki.getHighlighter({
-        theme: 'dark-plus',
-        langs: []
-    });
-    await highlighter.loadLanguage(ext);
-    document.body.innerHTML = highlighter.codeToHtml(code, { lang: ext });
+    if (location.hostname === 'raw.githubusercontent.com') {
+        chrome.runtime.sendMessage({ code, ext }, response => {
+            if (response) document.body.innerHTML = response;
+        });
+    } else {
+        const highlighter = await shiki.getHighlighter({
+            theme: 'dark-plus',
+            langs: []
+        });
+        await highlighter.loadLanguage(ext);
+        document.body.innerHTML = highlighter.codeToHtml(code, { lang: ext });
+    }
 }
