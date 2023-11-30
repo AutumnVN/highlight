@@ -30,9 +30,33 @@ if (document.contentType !== 'text/html' && (document.contentType.startsWith('te
 }
 
 async function highlightCode(code, ext) {
+    const style = `<style>
+        body {
+            background-color: #1e1e1e;
+        }
+
+        code {
+            counter-increment: step 0;
+            counter-reset: step;
+            font-family: Consolas, monospace;
+            font-size: 0.875rem;
+            line-height: 1.125rem;
+            white-space: pre-wrap;
+        }
+
+        .line::before {
+            display: inline-block;
+            counter-increment: step;
+            margin-right: 1rem;
+            width: 2.5rem;
+            content: counter(step);
+            color: #6e7681;
+            text-align: right
+        }
+    </style>`;
     if (location.hostname === 'raw.githubusercontent.com') {
         chrome.runtime.sendMessage({ code, ext }, response => {
-            if (response) document.body.innerHTML = response;
+            if (response) document.body.innerHTML = response + style;
         });
     } else {
         const highlighter = await shiki.getHighlighter({
@@ -40,6 +64,6 @@ async function highlightCode(code, ext) {
             langs: []
         });
         await highlighter.loadLanguage(ext);
-        document.body.innerHTML = highlighter.codeToHtml(code, { lang: ext });
+        document.body.innerHTML = highlighter.codeToHtml(code, { lang: ext }) + style;
     }
 }

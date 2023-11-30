@@ -25,9 +25,6 @@
                 "beautify/css.js",
                 "beautify/js.js",
                 "content.js"
-            ],
-            "css": [
-                "shiki/style.css"
             ]
         }
     ]
